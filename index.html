@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Encurtador de Links</title>
+    <style>
+        #form{
+            display: flex;
+            flex-direction: column;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to right, #1d162d, #04121f);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #fff;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 30px 40px;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        h1 {
+            margin-bottom: 24px;
+            font-size: 28px;
+        }
+
+        input[type="text"] {
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 12px 24px;
+            background-color: #ffffff;
+            color: #2575fc;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #f0f0f0;
+        }
+
+        #resultado {
+            margin-top: 20px;
+        }
+
+        a {
+            color: #ffd700;
+            word-break: break-all;
+        }
+
+        p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Encurtador de Links</h1>
+    <form id="form">
+        <input type="text" id="url" name="url" placeholder="Insere aqui o link..." required>
+        <button type="submit">Encurtar</button>
+    </form>
+    <div id="resultado"></div>
+</div>
+
+<script>
+    document.getElementById("form").addEventListener("submit", function(e) {
+        e.preventDefault();
+        const url = document.getElementById("url").value;
+
+        fetch("http://localhost:8080/shorten", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ url: url })
+        })
+            .then(res => res.json())
+            .then(data => {
+                const shortUrl = data.short_url || Object.values(data)[0];
+                document.getElementById("resultado").innerHTML =
+                    `<p><strong>Link curto:</strong><br><a href="${shortUrl}" target="_blank">${shortUrl}</a></p>`;
+            })
+            .catch(err => {
+                document.getElementById("resultado").innerHTML =
+                    `<p style="color: #ffb3b3;">Erro ao encurtar o link</p>`;
+                console.error(err);
+            });
+    });
+</script>
+</body>
+</html>
