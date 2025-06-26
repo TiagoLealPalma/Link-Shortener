@@ -22,7 +22,7 @@ func ShortenURL(c *gin.Context) {
 
 	// Generate Token
 	token := utils.GenerateShortCode(6)
-	shortUrl := "http://34.175.39.199:8080/" + token
+	shortUrl := "links.magdaleal.pt/" + token
 
 	// Save to DataBase
 	err := data.SaveUrl(token, json.OriginalLink)

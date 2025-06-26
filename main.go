@@ -20,6 +20,6 @@ func main() {
 
 	r.StaticFile("/", "./index.html")
 
-	r.Run(":8080")
+	r.Run(":80")
 
 }

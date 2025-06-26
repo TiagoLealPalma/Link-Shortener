@@ -13,7 +13,7 @@ func Redirect(c *gin.Context) {
 	url, err := data.GetOriginalLink(token)
 
 	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
+		c.Redirect(http.StatusMovedPermanently, "http://www.magdaleal.pt")
 		return
 	}
 
